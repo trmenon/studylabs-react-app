@@ -1,5 +1,9 @@
 import StudentHomeMount from "./student-home-mount";
+import StudentWalletMount from "./student-wallet-mount";
+import StudentClassMount from "./student-class-mount";
 
 export {
-    StudentHomeMount
+    StudentHomeMount,
+    StudentWalletMount,
+    StudentClassMount
 }

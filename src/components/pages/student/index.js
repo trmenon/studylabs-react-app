@@ -25,9 +25,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
-import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined';
 
 // Constants
 import { router_constants } from "../../../router/constants";
@@ -128,7 +128,7 @@ const StudentContainerComponent = ()=> {
             >
                 <MenuItem onClick={()=> handleNavigate('home')}>Home</MenuItem>
                 <MenuItem onClick={()=> handleNavigate('classes')}>Classes</MenuItem>
-                <MenuItem onClick={()=> handleNavigate('reports')}>Evaluations</MenuItem>
+                <MenuItem onClick={()=> handleNavigate('wallet')}>Wallet</MenuItem>
             </Menu>
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
@@ -251,10 +251,10 @@ const StudentContainerComponent = ()=> {
                                     <ListItemText primary="Classes" />
                                 </ListItemButton>
                             </ListItem>
-                            <ListItem disablePadding onClick = {()=>handleNavigate('reports')}>
+                            <ListItem disablePadding onClick = {()=>handleNavigate('wallet')}>
                                 <ListItemButton>
-                                    <ListItemIcon><AssessmentOutlinedIcon /></ListItemIcon>
-                                    <ListItemText primary="Evaluations" />
+                                    <ListItemIcon><CreditCardOutlinedIcon /></ListItemIcon>
+                                    <ListItemText primary="Wallet" />
                                 </ListItemButton>
                             </ListItem>
                         </List>

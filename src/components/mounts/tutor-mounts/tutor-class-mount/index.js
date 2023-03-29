@@ -110,27 +110,27 @@ const TutorClassesMount = ()=> {
                                     sx={{'& :hover': {cursor: 'pointer',backgroundColor: '#F6F6F5'}}}
                                     onClick = {()=> handleNavigate(element?._id)}
                                 >
-                                <Paper 
-                                    variant={'outlined'}
-                                    sx={{
-                                        height: '168px',
-                                        borderRadius: '28px',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',   
-                                        flexDirection: 'column'                                     
-                                    }}
-                                >
-                                    <Typography sx={{fontWeight: 600, fontSize: '20px', color: '#1c1e26'}}>
-                                        {element?.classTitle}
-                                    </Typography>
-                                    <Typography sx={{fontWeight: 500, fontSize: '16px', color: '#383940'}}>
-                                        {`${element?.enrolled.length} students enrolled`}
-                                    </Typography>
-                                    <Typography sx={{fontWeight: 500, fontSize: '16px', color: '#383940'}}>
-                                        {`${element?.archives.length} archives uploaded`}
-                                    </Typography>
-                                </Paper>
+                                    <Paper 
+                                        variant={'outlined'}
+                                        sx={{
+                                            height: '168px',
+                                            borderRadius: '28px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',   
+                                            flexDirection: 'column'                                     
+                                        }}
+                                    >
+                                        <Typography sx={{fontWeight: 600, fontSize: '20px', color: '#1c1e26'}}>
+                                            {element?.classTitle}
+                                        </Typography>
+                                        <Typography sx={{fontWeight: 500, fontSize: '16px', color: '#383940'}}>
+                                            {`${element?.enrolled.length} students enrolled`}
+                                        </Typography>
+                                        <Typography sx={{fontWeight: 500, fontSize: '16px', color: '#383940'}}>
+                                            {`${element?.archives.length} archives uploaded`}
+                                        </Typography>
+                                    </Paper>
                                 </Box>
                             </Grid>
                         )
