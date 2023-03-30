@@ -16,6 +16,10 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import TextSnippetOutlinedIcon from '@mui/icons-material/TextSnippetOutlined';
+import Alert from '@mui/material/Alert';
+import Avatar from '@mui/material/Avatar';
+import Chip from '@mui/material/Chip';
+import { deepOrange, deepPurple } from '@mui/material/colors';
 
 // Child components
 import CreateNoteMount from './create-note';
@@ -205,36 +209,44 @@ const ClassSessionMount = (props)=> {
                                 '&::-webkit-scrollbar': {display: 'none'}                                     
                             }}
                         >
-                            <Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
-                                <Box sx={{width: '100%', mb: '32px'}}>List</Box>
+                            <Box sx={{width: '100%', py: '16px', borderBottom: '1px solid #eaeaea'}}>
+                                <Typography sx={{color: '#1c1e26', fontWeight: 600, fontSize: '12px'}}>
+                                    Enrollment Directory
+                                </Typography>
                             </Box>
+                            {
+                                state?.data?.enrolled.length === 0?
+                                <Box sx={{width: '100%'}}>
+                                    <Alert variant="outlined" severity="info" sx={{width: '100%'}}>
+                                        No students have enrolled
+                                    </Alert>
+                                </Box>
+                                :
+                                <List sx={{ width: '100%'}}>
+                                    {
+                                        state?.data?.enrolled.map((element)=> {
+                                            return (
+                                                <ListItem 
+                                                    key={element?._id} 
+                                                    sx={{borderBottom: '1px solid #eaeaea'}}
+                                                >
+                                                    <Chip 
+                                                        avatar={
+                                                            <Avatar sx={{ bgcolor: deepPurple[500] }}>
+                                                                {`${element?.firstName[0]}${element?.lastName[0]}`}
+                                                            </Avatar>
+                                                        } 
+                                                        label={`${element?.firstName} ${element?.lastName}`} 
+                                                        variant={'outlined'}
+                                                        color={'secondary'}
+                                                    />
+                                                </ListItem>
+                                            )
+                                        })
+                                    }
+                                </List>
+
+                            }
                         </Paper>
                     </Grid>
                 </Grid>

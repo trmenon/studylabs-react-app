@@ -20,14 +20,15 @@ import {
 import {
     StudentHomeMount,
     StudentWalletMount,
-    StudentClassMount
+    StudentClassMount,
+    StudentSessionMount
 } from "../components/mounts/student-mounts";
 // Tutor Mounts
 import { 
     TutorHomeMount,
     TutorClassesMount,
     ClassSessionMount,
-    TutorReportsMount 
+    TutorWalletMount 
 } from "../components/mounts/tutor-mounts";
 
 
@@ -47,12 +48,12 @@ function Router(){
                     <Route path="home" element={<TutorHomeMount/>}/>
                     <Route path="classes" element={<TutorClassesMount/>}/>
                     <Route path="classes/:id" element={<ClassSessionMount/>}/>
-                    <Route path="reports" element={<TutorReportsMount/>}/>
+                    <Route path="wallet" element={<TutorWalletMount/>}/>
                 </Route>
                 <Route path="/student" element={<StudentContainerComponent/>}>
                     <Route path="home" element={<StudentHomeMount/>}/>
                     <Route path="classes" element={<StudentClassMount/>}/>
-                    <Route path="class/:id" element={<h6>Student Class</h6>}/>
+                    <Route path="classes/:id" element={<StudentSessionMount/>}/>
                     <Route path="wallet" element={<StudentWalletMount/>}/>
                 </Route>
             </Routes>        

@@ -58,11 +58,21 @@ const updateNotesToClassArchive = (id, note)=>
         true
     )
 
+// Updating new notes to class archives
+const updateClassEnrollment = (data)=>
+    fetchCall(
+        `${SERVICE_BASE_URL}/enrollStudent`,
+        config?.requestMethod['PUT'],
+        data,
+        true
+    )
+
 export const classServices = {
     fetchAllClasses,
     createNewClass,
     fetchClassById,
     toggleClassStatusById,
     fetchClassByTutor,
-    updateNotesToClassArchive
+    updateNotesToClassArchive,
+    updateClassEnrollment
 }

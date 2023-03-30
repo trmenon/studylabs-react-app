@@ -9,7 +9,7 @@ export const router_constants = {
     tutor_routes: {
         home: {key: 'home', route: 'home'},
         classes: {key: 'classes', route: 'classes'},
-        reports: {key: 'reports', route: 'reports'},
+        wallet: {key: 'wallet', route: 'wallet'},
     },
     student_routes: {
         home: {key: 'home', route: 'home'},

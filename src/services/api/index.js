@@ -4,6 +4,7 @@ import { classServices } from "./classServices";
 import { assetServices } from "./assetServices";
 import { notesServices } from "./notesServices";
 import { walletServices } from "./walletServices";
+import { enrollmentServices } from "./enrollmentServices";
 
 export const services = {
     userServices,
@@ -11,5 +12,6 @@ export const services = {
     classServices,
     assetServices,
     notesServices,
-    walletServices
+    walletServices,
+    enrollmentServices
 };

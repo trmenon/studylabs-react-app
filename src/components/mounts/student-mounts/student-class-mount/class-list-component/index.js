@@ -1,31 +1,41 @@
-import { Class } from "@mui/icons-material";
 import React, { Component} from "react";
 import { services } from "../../../../../services/api";
+import { getLocalStorageByKey } from "../../../../../authentication/utils";
 
 // Legacy Imports
 import Snackbar from '@mui/material/Snackbar';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import Stack from '@mui/material/Stack';
+import Alert from '@mui/material/Alert';
+import Avatar from '@mui/material/Avatar';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import CastForEducationIcon from '@mui/icons-material/CastForEducation';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
+import LinearProgress from '@mui/material/LinearProgress';
 
 class ClassListingComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             toaster: { open: false, message: ''},
-            classList: []
+            classList: [],
+            enrollments: this.props?.enrollments,
+            openModal: false,
         }
     }
 
     // Lifecycle Methods
     componentDidMount() {this.fetchAllClasses()}
     componentDidUpdate() {
-        console.log('[UPDATE] Class listing component with state');
-        console.log(this.state);
+        // console.log('[UPDATE] Class listing component with state');
+        // console.log(this.state);
     }
 
     // APIs
@@ -69,9 +79,72 @@ class ClassListingComponent extends Component {
             })
         }
     }
+    enrollClassById = (key)=> {
+        const payload = {
+            userId: getLocalStorageByKey('user')?._id,
+            classId: key
+        };
+        try{
+            services
+            .classServices
+            .updateClassEnrollment(payload)
+            .subscribe({
+                next: (response)=> {
+                    if(response?.success === true) {
+                        this.setState({
+                            ...this.state,
+                            openModal: false,
+                            toaster: { 
+                                open: true, 
+                                message: response?.message ||  'You have enrolled for a new class. Happy learning'
+                            },
+                        }, ()=> this.props?.refresh())
+                    }else {
+                        this.setState({
+                            ...this.state,
+                            openModal: false,
+                            toaster: { 
+                                open: true, 
+                                message: response?.message || 'Unable to process your request at the moment. Please try after sometime.'
+                            },
+                        })
+                    }
+                },
+                error: (error)=> {
+                    console.log('[ERROR] Enrollment');
+                    console.log(error);
+                    this.setState({
+                        ...this.state,
+                        openModal: false,
+                        toaster: { 
+                            open: true, 
+                            message: 'Server busy at the moment. Please try after sometime.'
+                        },
+                    })
+                },
+            })
+        }catch(err) {
+            console.log('[ERROR] Enrollment');
+            console.log(err);
+            this.setState({
+                ...this.state,
+                openModal: false,
+                toaster: { 
+                    open: true, 
+                    message: 'Unexpected error occured. Please try after sometime.'
+                },
+            })
+        }
+    }
 
     // Event Handlers
     closeSnackbar = ()=> this.setState({...this.state, toaster: {open: false, message: ''}});
+    handleEnrollment = (key)=> {
+        this.setState({
+            ...this.state,
+            openModal: true
+        }, ()=> this.enrollClassById(key))
+    }
 
     // Renderer
     render() {
@@ -83,7 +156,87 @@ class ClassListingComponent extends Component {
                     onClose={this.closeSnackbar}
                     message= {this.state?.toaster['message']}
                 />
-                <Grid container spacing={2}>
+                <Dialog 
+                    open={this.state?.openModal} 
+                    onClose={()=> {}} 
+                    sx={{'& .MuiDialog-paper': {borderRadius: '24px',py: '16px'},}}
+                >
+                    <DialogContent>
+                        <Stack spacing={'32px'}>
+                            <Typography
+                                variant={'body1'}
+                                sx={{color: '#171D41', fontWeight: 700, fontSize: '32px'}}
+                            >
+                                Please wait while we enroll you into the program
+                            </Typography>
+                            <Box sx={{ width: '100%' }}>
+                                <LinearProgress />
+                            </Box>
+                        </Stack>
+                    </DialogContent>
+                </Dialog>
+                {
+                    this.state?.classList.length === 0?
+                        <Box sx={{width: '100%'}}>
+                            <Alert variant="outlined" severity="info" sx={{width: '100%'}}>
+                                There are no classes to show at the moment
+                            </Alert>
+                        </Box>
+                        :
+                        <List sx={{ width: '100%'}}>
+                            {
+                                this.state?.classList.map((element)=> {
+                                    return(
+                                        <ListItem 
+                                            key={element?._id} 
+                                            sx={{borderBottom: '1px solid #eaeaea'}}
+                                        >
+                                            <ListItemAvatar>
+                                                <Avatar>
+                                                    <CastForEducationIcon />
+                                                </Avatar>
+                                            </ListItemAvatar>
+                                            <ListItemText 
+                                                primary={element?.classTitle} 
+                                                secondary={`${element?.handledBy?.firstName} ${element?.handledBy?.lastName}`}
+                                            />
+                                            <Stack 
+                                                spacing={0} 
+                                                direction={'row'} 
+                                                sx={{px: '8px', display: 'flex', alignItems: 'center'}}
+                                            >
+                                                <PaymentsIcon/>
+                                                <Typography 
+                                                    sx={{ fontSize: 12, color: '#0d2a29', fontWeight: 700 }} 
+                                                    gutterBottom
+                                                >
+                                                    {'10'}
+                                                </Typography>
+                                            </Stack>
+                                            <Button 
+                                                size="small"
+                                                disabled = {this.state?.enrollments.includes(element?._id)}
+                                                onClick = {()=> this.handleEnrollment(element?._id)}
+                                            >
+                                                Enroll
+                                            </Button>
+                                        </ListItem>
+                                    )
+                                })
+                            }
+                        </List>
+                }
+                
+
+                {/* <Grid 
+                    container 
+                    spacing={2}
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center', 
+                        justifyContent: {xs: 'center', md: 'flex-start'},
+                    }}
+                >
                     {
                         this.state?.classList.map((element)=> {
                             return (
@@ -97,7 +250,7 @@ class ClassListingComponent extends Component {
                                     >
                                         <CardContent 
                                             sx={{
-                                                height: '100px', 
+                                                height: '180px', 
                                                 overflow: 'scroll', 
                                                 '&::-webkit-scrollbar': {display: 'none'}
                                             }}
@@ -134,19 +287,30 @@ class ClassListingComponent extends Component {
                                                 </Typography>
                                             </Box>
                                         </CardContent>
-                                        <CardActions sx={{borderTop: '1px solid e5e5e5'}}>
+                                        <CardActions sx={{borderTop: '1px solid e5e5e5', display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
                                             <Button 
                                                 size="small"
                                             >
                                                 Enroll
                                             </Button>
+                                            <Stack direction = {'row'} spacing = {0} sx={{display: 'flex', alignItems: 'center'}}>
+                                                <Box><PaymentsIcon/></Box>
+                                                <Box>
+                                                    <Typography 
+                                                        sx={{ fontSize: 20, color: '#0d2a29', fontWeight: 700 }} 
+                                                        gutterBottom
+                                                    >
+                                                        {'10'}
+                                                    </Typography>
+                                                </Box>
+                                            </Stack>
                                         </CardActions>
                                     </Card>
                                 </Grid>
                             )
                         })
                     }
-                </Grid>
+                </Grid> */}
             </React.Fragment>
         )
     }

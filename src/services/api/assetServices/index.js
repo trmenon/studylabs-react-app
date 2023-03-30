@@ -15,6 +15,16 @@ const uploadFile = (data)=>
         true
     );
 
+// Getting stock media
+const downloadFile = (data)=> 
+    fetchCall(
+        `/asset/download/${data}`,
+        config.requestMethod.GET,
+        {},
+        true
+    );
+
 export const assetServices = {
-    uploadFile
+    uploadFile,
+    downloadFile
 }
