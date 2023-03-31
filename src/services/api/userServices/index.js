@@ -50,6 +50,14 @@ const fetchAllTutors = ()=>
         true
     )
 
+const fetchAllUsersByRole = (role)=>
+    fetchCall(
+        `/user/getAllUsersByRole/${role}`,
+        config?.requestMethod['GET'],
+        {},
+        true
+    )
+
 const fetchUserById = (id)=>
     fetchCall(
         `/user/getUserById/${id}`,
@@ -75,5 +83,6 @@ export const userServices = {
     fetchAllUsers,
     fetchUserById,
     deleteUserById,
-    fetchAllTutors
+    fetchAllTutors,
+    fetchAllUsersByRole
 };

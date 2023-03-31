@@ -1,5 +1,6 @@
 import { userServices } from "../userServices";
 import { subjectServices } from "../subjectServices";
+import { commonServices } from "../commonServices";
 import { v4 } from "uuid";
 
 const populateSubject = async ()=> {
@@ -52,8 +53,34 @@ const populateTutors = async ()=> {
         console.log(err);
     }
 }
+const populateRoles = async ()=> {
+    try{
+        return await commonServices
+            .fetchAllRoles()
+            .toPromise()
+            .then((data)=> {
+                if(
+                    data &&
+                    data?.success === true &&
+                    data?.data &&
+                    data?.data?.user_roles &&
+                    Array.isArray(data?.data?.user_roles)
+                ) {
+                    return data?.data?.user_roles.map((option)=> ({
+                        key: v4(),
+                        value: option.value,
+                        label: option?.label
+                    }))
+                }
+            })
+    }catch(err) {
+        console.log('[ERROR] Populating user roles as list');
+        console.log(err);
+    }
+}
 
 export const populators = {
     populateSubject,
-    populateTutors
+    populateTutors,
+    populateRoles
 }

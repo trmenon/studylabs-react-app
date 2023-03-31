@@ -30,8 +30,18 @@ const getSubjectById = (id)=>
         true
     );
 
+// Fetching all subjects
+const getAllSubjectsDetails = ()=> 
+    fetchCall(
+        `${SERVICE_BASE_URL}/getSubjectDetails`,
+        config?.requestMethod['GET'],
+        {},
+        true
+    );
+
 export const subjectServices = {
     createNewSubject,
     getAllSubjects,
     getSubjectById,
+    getAllSubjectsDetails
 }
